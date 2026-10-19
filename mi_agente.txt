@@ -1,0 +1,99 @@
+#include <iostream>
+using namespace std;
+
+struct TDA_Nodo{
+    int num;
+};
+
+struct TDA_NodoD{
+    TDA_Nodo dat;
+    TDA_NodoD *sig, *ant;
+};
+
+void IILDC(TDA_NodoD *&Lista , TDA_Nodo d){
+    TDA_NodoD *nn = new(TDA_NodoD);
+    nn->dat = d;
+
+    if(Lista == NULL){
+        nn->sig = nn->ant = NULL;
+    }else{
+        nn->sig = Lista;
+        nn->ant = NULL;
+        Lista->ant = nn;
+    }
+    Lista = nn;
+}
+
+void IFLDC(TDA_NodoD *&Lista, TDA_Nodo d){
+     TDA_NodoD *nn = new(TDA_NodoD);
+     nn->dat = d;
+     nn->sig = NULL;
+     TDA_NodoD *aux = Lista;
+
+     if(Lista == NULL){
+        nn->ant = NULL;
+        Lista = nn;
+     }else{
+        while(aux->sig != NULL){
+            aux = aux->sig;
+        }
+
+        aux->sig = nn;
+        nn->ant = aux;
+     }
+}
+
+
+
+void MostrarInicioFin(TDA_NodoD *Lista){
+    TDA_NodoD *aux = Lista;
+
+    cout<<" Recorrido de Inicio a fin : "<<endl;
+
+    while(aux != NULL){
+        cout<< aux->dat.num << "  ";
+        aux = aux->sig;
+    }
+    cout << endl;
+}
+
+void MostrarFinInicio(TDA_NodoD *Lista){
+    if(Lista == NULL)
+        return;
+
+    TDA_NodoD *aux = Lista;
+
+    while(aux->sig != NULL){
+        aux = aux->sig;
+    }
+
+    cout << "\nRecorrido de Fin a Inicio:\n";
+
+    while(aux != NULL){
+        cout << aux->dat.num << " ";
+        aux = aux->ant;
+    }
+    cout << endl;
+}
+
+
+int main() {
+    TDA_NodoD *Lista = NULL;
+    TDA_Nodo d;
+    int n;
+
+    cout<< " Cuantos numeros desea ingresar : "<<endl;
+    cin>>n;
+
+    for(int i = 1 ; i <= n; i++){
+        cout<<" Ingrese los numeros "<< i << " : "<<endl;
+        cin>>d.num;
+
+        IFLDC(Lista, d);
+    }
+
+    MostrarInicioFin(Lista);
+	MostrarFinInicio(Lista);
+
+    return 0;
+}
